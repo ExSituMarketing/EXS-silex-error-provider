@@ -1,0 +1,29 @@
+{
+    "name": "exs/silex-error-provider",
+    "description": "Exception/Error logging bundle for Silex2",
+    "keywords": [
+        "silex",
+        "error",
+        "exception",
+        "provider",
+        "logging"
+    ],
+    "homepage": "https://github.com/ExSituMarketing/EXS-silex-error-provider",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Charles Weiss",
+            "email": "charles@ex-situ.com"
+        }
+    ],
+    "require": {
+        "silex/silex": "~2.0@dev"
+    },
+    "autoload": {
+        "psr-0": {
+            "EXS": "src"
+        }
+    },
+    "minimum-stability": "dev",
+    "target-dir": "EXS/silex-error-provider"    
+}
