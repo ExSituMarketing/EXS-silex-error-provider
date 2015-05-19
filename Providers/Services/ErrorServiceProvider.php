@@ -23,12 +23,7 @@ class ErrorServiceProvider implements ServiceProviderInterface
         });
         // Log any fatal errors
         $app->error(function (\Exception $e, $code) use ($app) {
-        // Need to comment this out as we cant test for both envs simultaneously
-        //    if ($app['debug'] == true) {
-        //        return;
-        //    }
             EXSErrorHandler::onAnyException($e,$app['exs.serv.exception.logger']);
-        //    return $app->redirect($app['param.fallbackUrl']);
         });
     }
 }

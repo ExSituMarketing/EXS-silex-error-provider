@@ -104,7 +104,7 @@ class EXSErrorHandler
     {
         try {
             if($loggerService){
-                //$loggerService->persistException($exception);
+                $loggerService->persistException($exception);
             }
         } catch (\Exception $ex) {
             // Silence
