@@ -19,7 +19,7 @@ class ErrorServiceProvider implements ServiceProviderInterface
     public function register(Container $app)
     {
         $app['exs.serv.exception.logger'] = ( function ($app) {
-            return new ExceptionLoggerService($app['db'],$app['tf.serv.request']);
+            return new ExceptionLoggerService($app['exs.serv.request']);
         });
         // Log any fatal errors
         $app->error(function (\Exception $e, $code) use ($app) {
