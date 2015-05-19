@@ -1,4 +1,4 @@
-{
+    {
     "name": "exs/silex-error-provider",
     "description": "Exception/Error logging bundle for Silex2",
     "keywords": [
