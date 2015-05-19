@@ -34,6 +34,15 @@ Update the app.php to include our provider:
 //...
 $app->register(new \EXS\ErrorProvider\Providers\Services\ErrorServiceProvider());
 ```
+Update your config.php with the log locations:
+```php
+//...
+// Log locations and names
+$app['logs.directory'] = __DIR__ . '/../var/logs';
+$app['logs.file.exceptions'] = $app['logs.directory'] . '/exceptions.log';
+//...
+```
+
 
 and now you're done.
 
