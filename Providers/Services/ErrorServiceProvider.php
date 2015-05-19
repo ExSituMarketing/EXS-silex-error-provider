@@ -4,8 +4,8 @@ namespace EXS\ErrorProvider\Providers\Services;
 
 use Pimple\ServiceProviderInterface;
 use Pimple\Container;
-use EXS\TrafficFalcon\Services\Loggers\ExceptionLoggerService;
-use EXS\TrafficFalcon\Error\EXSErrorHandler;
+use EXS\ErrorProvider\Services\Loggers\ExceptionLoggerService;
+use EXS\ErrorProvider\Error\EXSErrorHandler;
 
 /**
  * Register the service to log errors and define the ErrorHandler

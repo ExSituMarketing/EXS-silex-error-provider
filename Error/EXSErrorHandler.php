@@ -3,7 +3,7 @@
 namespace EXS\ErrorProvider\Error;
 
 use Symfony\Component\HttpKernel\Exception\FlattenException;
-use EXS\TrafficFalcon\Services\Loggers\ExceptionLoggerService;
+use EXS\ErrorProvider\Services\Loggers\ExceptionLoggerService;
 
 /**
  * Description of ExceptionLoggerInterface

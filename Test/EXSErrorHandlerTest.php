@@ -1,9 +1,9 @@
 <?php
 
-namespace EXS\TrafficFalcon\Tests\Error;
+namespace EXS\ErrorProvider\Tests\Error;
 
 use PHPUnit_Framework_TestCase;
-use EXS\TrafficFalcon\Error\EXSErrorHandler;
+use EXS\ErrorProvider\Error\EXSErrorHandler;
 /**
  * Description of EXSErrorHandlerTest
  *
