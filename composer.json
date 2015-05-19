@@ -17,7 +17,8 @@
         }
     ],
     "require": {
-        "silex/silex": "~2.0@dev"
+        "silex/silex": "~2.0@dev",
+        "exs/silex-request-provider": "dev-master"
     },
     "autoload": {
         "psr-0": {
