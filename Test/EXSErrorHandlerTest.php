@@ -1,6 +1,6 @@
 <?php
 
-namespace EXS\ErrorProvider\Tests\Error;
+namespace EXS\ErrorProvider\Test\Error;
 
 use PHPUnit_Framework_TestCase;
 use EXS\ErrorProvider\Error\EXSErrorHandler;

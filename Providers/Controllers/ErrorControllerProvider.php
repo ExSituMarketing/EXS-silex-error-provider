@@ -1,6 +1,6 @@
 <?php
 
-namespace EXS\ErrorProvider\Controllers;
+namespace EXS\ErrorProvider\Providers\Controllers;
 
 use Silex\Api\ControllerProviderInterface;
 use Silex\Application;
