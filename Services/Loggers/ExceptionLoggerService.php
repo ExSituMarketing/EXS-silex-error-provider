@@ -65,7 +65,7 @@ class ExceptionLoggerService
             $parts = $this->build5xxString($exception);
         }
 
-        return serialize($parts);
+        return json_encode($parts);
     }
 
     public function build5xxString(FlattenException $exception)
