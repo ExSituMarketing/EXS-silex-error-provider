@@ -49,11 +49,6 @@ class ExceptionLoggerService
         return;
     }
 
-    /**
-     * Write the exception to log file
-     * @param string $line
-     * @return boolean
-     */
     public function writeLog($line = '')
     {
         if (is_dir(dirname($this->logfile))) {
@@ -62,12 +57,6 @@ class ExceptionLoggerService
         return true;
     }
 
-    /**
-     * Turn the exception to a helpful string
-     * The string is formed from an array that has been json_encoded
-     * @param FlattenException $exception
-     * @return sring
-     */
     public function buildString(FlattenException $exception)
     {
         if ($this->getHttpStatusCode($exception) == 4) {
@@ -79,11 +68,6 @@ class ExceptionLoggerService
         return serialize($parts);
     }
 
-    /**
-     * Assemble the 5xx specific debug information
-     * @param FlattenException $exception
-     * @return array
-     */
     public function build5xxString(FlattenException $exception)
     {
         $parts = [];
@@ -95,11 +79,6 @@ class ExceptionLoggerService
         return $this->appendGeneric($parts);
     }
 
-    /**
-     * Assemble the 4xx specific debug information
-     * @param FlattenException $exception
-     * @return array
-     */
     public function build4xxString(FlattenException $exception)
     {
         $parts = [];
@@ -108,11 +87,6 @@ class ExceptionLoggerService
         return $this->appendGeneric($parts);
     }
 
-    /**
-     * Assemble the generic debug information
-     * @param array the specific exception pieces
-     * @return array
-     */
     public function appendGeneric($parts = array())
     {
         $parts['requestUrl'] = $this->request->getRequestUri();
@@ -127,10 +101,6 @@ class ExceptionLoggerService
         return $parts;
     }
 
-    /**
-     * Friendly date format
-     * @return string
-     */
     public function getDate()
     {
         $d = new \DateTime('now');
