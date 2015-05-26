@@ -3,7 +3,7 @@
 namespace EXS\ErrorProvider\Error;
 
 use Symfony\Component\HttpKernel\Exception\FlattenException;
-use EXS\ErrorProvider\Services\Loggers\ExceptionLoggerService;
+use EXS\ErrorProvider\Services\Loggers\ExceptionLoggerFileService;
 
 /**
  * Description of ExceptionLoggerInterface
@@ -86,7 +86,7 @@ class EXSErrorHandler
      * @param  \Exception   $exception
      * @return Exception5xx
      */
-    public static function onAnyException(\Exception $exception,ExceptionLoggerService $loggerService=NULL)
+    public static function onAnyException(\Exception $exception,ExceptionLoggerFileService $loggerService=NULL)
     {
         $exception = FlattenException::create($exception);
 
@@ -100,7 +100,7 @@ class EXSErrorHandler
      * @param FlattenException $exception
      * @param Request          $request
      */
-    public static function logException(FlattenException $exception,ExceptionLoggerService $loggerService=NULL)
+    public static function logException(FlattenException $exception,ExceptionLoggerFileService $loggerService=NULL)
     {
         try {
             if($loggerService){
