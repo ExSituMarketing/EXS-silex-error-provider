@@ -11,11 +11,11 @@ Once the new project is set up, open the composer.json file and add the exs/sile
 //...
 "require": {
         //other bundles
-        "exs/silex-error-provider": "dev-master"
+        "exs/silex-error-provider": "v1.0.*"
 ```
 Or you could just add it via the command line:
 ```
-$ composer.phar require exs/silex-error-provider : dev-master
+$ composer.phar require exs/silex-error-provider : v1.0.*
 ```
 
 Save the file and have composer update the project via the command line:
