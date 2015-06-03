@@ -38,8 +38,10 @@ Update your config.php with the log locations:
 ```php
 //...
 // Log locations and names
+// Max number of error messages to read before logging to DB.
 $app['logs.directory'] = __DIR__ . '/../var/logs';
 $app['logs.file.exceptions'] = $app['logs.directory'] . '/exceptions.log';
+$app['logs.reader.threshold'] = 2000;
 //...
 ```
 

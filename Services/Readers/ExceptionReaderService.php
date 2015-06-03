@@ -15,7 +15,7 @@ class ExceptionReaderService
 
     /**
      * The mysql logger
-     * @var EXS\ErrorProvider\Services\Readers\ExceptionLoggerMysqlService
+     * @var EXS\ErrorProvider\Services\Loggers\ExceptionLoggerMysqlService
      */
     protected $logger;
 
@@ -24,35 +24,70 @@ class ExceptionReaderService
      * @var string
      */
     protected $logfile = '';
+    
+    /**
+     * Array size limit before logging them to db.
+     * @var int
+     */    
+    protected $threshold = 500;
 
     /**
      * The constructor
-     * @param \EXS\ErrorProvider\Services\Readers\ExceptionLoggerMysqlService $logger
+     * @param \EXS\ErrorProvider\Services\Loggers\ExceptionLoggerMysqlService $logger
      * @param type $logfile
      */
-    public function __construct(ExceptionLoggerMysqlService $logger, $logfile = '')
+    public function __construct(\EXS\ErrorProvider\Services\Loggers\ExceptionLoggerMysqlService $logger, $logfile = '', $threshold)
     {
         $this->logger = $logger;
         $this->logfile = $logfile;
+        $this->threshold = $threshold;
     }
 
+    /** 
+     * Run exception log handler
+     * Called from console command
+     */
     public function run()
     {
-        $this->boo();
+        $this->readExceptionLog();
     }
 
-    public function boo()
+    /**
+     * Read exception file, then update DB.
+     * Trancate exception file once all done.
+     */
+    public function readExceptionLog()
     {
         $file = new \SplFileObject($this->logfile, 'r+');
         if ($file->flock(LOCK_EX)) { // do an exclusive lock
-            while (!$file->eof()) {
+            $inx = 0;
+            while (!$file->eof()) {               
                 $line = $file->fgets();
                 if (!empty($line)) {
-                    $this->logger->persist($line);
-                }
+                    $this->logger->addRow($line); // add line to the array
+                    $inx = $this->checkForUpdate($inx); // check if the array need to be processed.
+                }                
             }
-            //$file->ftruncate(0);     // truncate file
+            $this->logger->processDbUpdate(); // take care of left overs in the array.
+            $file->ftruncate(0);     // truncate file
             $file->flock(LOCK_UN);   // release the lock
         }
     }
+    
+    /**
+     * Check how many exception messages have been red.
+     * If over the limit, update db then empty arrays 
+     * @param int $inx
+     * @return int
+     */
+    public function checkForUpdate($inx = 0)
+    {
+        $inx++;
+        if($inx > $this->threshold) { // over the limit
+            $this->logger->processDbUpdate();
+            $inx = 0; // reset the counter
+        }        
+        return $inx;
+    }
+    
 }

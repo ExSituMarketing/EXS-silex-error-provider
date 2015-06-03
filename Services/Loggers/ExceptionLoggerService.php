@@ -5,8 +5,6 @@ namespace EXS\ErrorProvider\Services\Loggers;
 use Symfony\Component\HttpKernel\Exception\FlattenException;
 use EXS\RequestProvider\Services\RequestService;
 use EXS\ErrorProvider\Services\Utils\Flattener;
-use EXS\ErrorProvider\Entities\Exception5xx;
-use EXS\ErrorProvider\Entities\Exception4xx;
 
 /**
  * Description of ExceptionLoggerService
@@ -15,7 +13,7 @@ use EXS\ErrorProvider\Entities\Exception4xx;
  * @author Charles Weiss <charlesw@ex-situ.com>
  * @copyright   Copyright 2015 ExSitu Marketing.
  */
-class ExceptionLoggerFileService
+class ExceptionLoggerService
 {
 
     /**
@@ -62,52 +60,45 @@ class ExceptionLoggerFileService
     public function buildString(FlattenException $exception)
     {
         if ($this->getHttpStatusCode($exception) == 4) {
-            $eLog = $this->build4xxString();
+            $parts = $this->build4xxString($exception);
         } else {
-            $eLog = $this->build5xxString($exception);
+            $parts = $this->build5xxString($exception);
         }
-        $eLog = $this->appendGeneric($exception, $eLog);
 
-        $encoded = $this->encodeException($eLog);
-
-        return $encoded;
-    }
-
-    public function encodeException($eLog = null)
-    {
-        $encode = json_encode($eLog);
-        return $encode;
+        return json_encode($parts);
     }
 
     public function build5xxString(FlattenException $exception)
     {
-        $elog = new Exception5xx;
-        $elog->setFile($exception->getFile());
-        $elog->setLine($exception->getLine());
-        $elog->setTrace($this->flattenTrace($exception));
-        return $elog;
+        $parts = [];
+        $parts['statusCode'] = $exception->getStatusCode();
+        $parts['file'] = $exception->getFile();
+        $parts['line'] = $exception->getLine();
+        $parts['message'] = $exception->getMessage();
+        $parts['trace'] = $this->flattenTrace($exception);
+        return $this->appendGeneric($parts);
     }
 
-    public function build4xxString()
+    public function build4xxString(FlattenException $exception)
     {
-        $elog = new Exception4xx;
-        return $elog;
+        $parts = [];
+        $parts['statusCode'] = $exception->getStatusCode();
+        $parts['message'] = $exception->getMessage();
+        return $this->appendGeneric($parts);
     }
 
-    public function appendGeneric(FlattenException $exception, $elog)
+    public function appendGeneric($parts = array())
     {
-        $elog->setStatusCode($exception->getStatusCode());
-        $elog->setMessage($exception->getMessage());
-        $elog->setRequestUrl($this->request->getRequestUri());
-        $elog->setReferrer($this->request->server->get('HTTP_REFERER'));
-        $elog->setUserAgent($this->request->server->get('HTTP_USER_AGENT'));
-        $elog->setRemoteIp($this->request->server->get('REMOTE_ADDR'));
-        $elog->setMethod($this->request->server->get('REQUEST_METHOD'));
-        $elog->setQueryString($this->request->server->get('QUERY_STRING'));
-        $elog->setHostname(php_uname('n'));
-        $elog->setRequest(Flattener::flattenArrayToString($this->request->server->all()));
-        $elog->setLogged($this->getDate());
-        return $elog;
+        $parts['requestUrl'] = $this->request->getRequestUri();
+        $parts['referrer'] = $this->request->server->get('HTTP_REFERER');
+        $parts['userAgent'] = $this->request->server->get('HTTP_USER_AGENT');
+        $parts['remoteIp'] = $this->request->server->get('REMOTE_ADDR');
+        $parts['method'] = $this->request->server->get('REQUEST_METHOD');
+        $parts['queryString'] = $this->request->server->get('QUERY_STRING');
+        $parts['hostname'] = php_uname('n');
+        $parts['request'] = Flattener::flattenArrayToString($this->request->server->all());
+        $parts['logged'] = $this->getDate();
+        return $parts;
     }
 
     public function getDate()

@@ -5,6 +5,7 @@ namespace EXS\ErrorProvider\Providers\Services;
 use Pimple\ServiceProviderInterface;
 use Pimple\Container;
 use EXS\ErrorProvider\Services\Loggers\ExceptionLoggerFileService;
+use EXS\ErrorProvider\Services\Loggers\ExceptionLoggerMysqlService;
 use EXS\ErrorProvider\Services\Readers\ExceptionReaderService;
 use EXS\ErrorProvider\Error\EXSErrorHandler;
 
@@ -31,7 +32,7 @@ class ErrorServiceProvider implements ServiceProviderInterface
 
         // Register the reader : REQUIRES the mysql connection
         $app['exs.serv.exception.reader'] = ( function ($app) {
-            return new ExceptionReaderService($app['exs.serv.exception.mysql.logger'] , $app['logs.file.exceptions']);
+            return new ExceptionReaderService($app['exs.serv.exception.mysql.logger'] , $app['logs.file.exceptions'], $app['logs.reader.threshold']);
         });
 
         // Log any fatal errors
