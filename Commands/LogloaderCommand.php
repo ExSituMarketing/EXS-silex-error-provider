@@ -12,12 +12,13 @@ namespace EXS\ErrorProvider\Commands;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
+use \EXS\ErrorProvider\Services\Readers\ExceptionReaderService;
 
 class LogloaderCommand extends Command
 {
     protected $service;
 
-    public function __construct($name = '', $service = null)
+    public function __construct($name = '', ExceptionReaderService $service = null)
     {
         $this->service = $service;
         parent::__construct($name);
@@ -33,18 +34,5 @@ class LogloaderCommand extends Command
     public function execute(InputInterface $input, OutputInterface $output)
     {
         $this->service->run();
-    }
-
-    /**
-     * {@inheritdoc}
-     */
-    protected function createDefinition()
-    {
-//        return new InputDefinition(array(
-//            new InputArgument('namespace', InputArgument::OPTIONAL, 'The namespace name'),
-//            new InputOption('xml', null, InputOption::VALUE_NONE, 'To output list as XML'),
-//            new InputOption('raw', null, InputOption::VALUE_NONE, 'To output raw command list'),
-//            new InputOption('format', null, InputOption::VALUE_REQUIRED, 'To output list in other formats', 'txt'),
-//        ));
     }
 }

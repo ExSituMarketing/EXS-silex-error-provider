@@ -23,20 +23,20 @@ class ExceptionReaderService
      * The location of the log file
      * @var string
      */
-    protected $logfile = '';
+    protected $logfile;
     
     /**
      * Array size limit before logging them to db.
      * @var int
      */    
-    protected $threshold = 500;
+    protected $threshold;
 
     /**
      * The constructor
      * @param \EXS\ErrorProvider\Services\Loggers\ExceptionLoggerMysqlService $logger
      * @param type $logfile
      */
-    public function __construct(\EXS\ErrorProvider\Services\Loggers\ExceptionLoggerMysqlService $logger, $logfile = '', $threshold)
+    public function __construct(\EXS\ErrorProvider\Services\Loggers\ExceptionLoggerMysqlService $logger, $logfile = '', $threshold = 2000)
     {
         $this->logger = $logger;
         $this->logfile = $logfile;
