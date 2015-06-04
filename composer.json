@@ -26,5 +26,10 @@
         }
     },
     "minimum-stability": "dev",
-    "target-dir": "EXS/ErrorProvider"    
+    "target-dir": "EXS/ErrorProvider",
+    "extra": {
+        "branch-alias": {
+            "dev-master": "1.0.x-dev"
+        }
+    }    
 }
