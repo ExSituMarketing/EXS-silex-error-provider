@@ -4,7 +4,9 @@ namespace EXS\ErrorProvider\Providers\Services;
 
 use Pimple\ServiceProviderInterface;
 use Pimple\Container;
-use EXS\ErrorProvider\Services\Loggers\ExceptionLoggerService;
+use EXS\ErrorProvider\Services\Loggers\ExceptionLoggerFileService;
+use EXS\ErrorProvider\Services\Loggers\ExceptionLoggerMysqlService;
+use EXS\ErrorProvider\Services\Readers\ExceptionReaderService;
 use EXS\ErrorProvider\Error\EXSErrorHandler;
 
 /**
@@ -18,12 +20,24 @@ class ErrorServiceProvider implements ServiceProviderInterface
 {
     public function register(Container $app)
     {
-        $app['exs.serv.exception.logger'] = ( function ($app) {
-            return new ExceptionLoggerService($app['exs.serv.request'] , $app['logs.file.exceptions']);
+        // Register the file logger
+        $app['exs.serv.exception.file.logger'] = ( function ($app) {
+            return new ExceptionLoggerFileService($app['exs.serv.request'] , $app['logs.file.exceptions']);
         });
+
+        // Register the mysql logger
+        $app['exs.serv.exception.mysql.logger'] = ( function ($app) {
+            return new ExceptionLoggerMysqlService($app['db']);
+        });
+
+        // Register the reader : REQUIRES the mysql connection
+        $app['exs.serv.exception.reader'] = ( function ($app) {
+            return new ExceptionReaderService($app['exs.serv.exception.mysql.logger'] , $app['logs.file.exceptions'], $app['logs.reader.threshold']);
+        });
+
         // Log any fatal errors
         $app->error(function (\Exception $e, $code) use ($app) {
-            EXSErrorHandler::onAnyException($e,$app['exs.serv.exception.logger']);
+            EXSErrorHandler::onAnyException($e,$app['exs.serv.exception.file.logger']);
         });
     }
 }

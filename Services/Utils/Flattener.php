@@ -24,10 +24,10 @@ class Flattener
     {
         $string = '';
         if (!empty($params)) {
-            ob_start();
+            \ob_start();
             print_r($params);
-            $string = @ob_get_clean();
-            @ob_end_clean();
+            $string = \ob_get_clean();
+            \ob_end_clean();
         }
 
         return $string;
