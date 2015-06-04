@@ -2,7 +2,7 @@
 
 namespace EXS\ErrorProvider\Error;
 
-use Symfony\Component\HttpKernel\Exception\FlattenException;
+use Symfony\Component\Debug\Exception\FlattenException;
 use EXS\ErrorProvider\Services\Loggers\ExceptionLoggerService;
 
 /**
