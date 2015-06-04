@@ -3,7 +3,7 @@
 namespace EXS\ErrorProvider\Error;
 
 use Symfony\Component\Debug\Exception\FlattenException;
-use EXS\ErrorProvider\Services\Loggers\ExceptionLoggerService;
+use EXS\ErrorProvider\Services\Loggers\ExceptionLoggerFileService;
 
 /**
  * Description of ExceptionLoggerInterface
