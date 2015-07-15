@@ -61,8 +61,8 @@ class ExceptionReaderService
         $file = new \SplFileObject($this->logfile, 'r+');
         if ($file->flock(LOCK_EX)) { // do an exclusive lock
             $inx = 0;
-            while (!$file->eof()) {               
-                $line = $file->fgets();
+            while (!$file->eof()) {    
+                $line = trim($file->fgets());
                 if (!empty($line)) {
                     $this->logger->addRow($line); // add line to the array
                     $inx = $this->checkForUpdate($inx); // check if the array need to be processed.
