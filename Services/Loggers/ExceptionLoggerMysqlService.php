@@ -48,9 +48,9 @@ class ExceptionLoggerMysqlService
      */
     public function addRow($message = null){
         $decodedMessage = json_decode($message); // decode message
-        if($decodedMessage->statusCode >= 400 && $decodedMessage->statusCode < 500) { // split it for 4xx and 5xx
+        if(isset($decodedMessage->statusCode) && $decodedMessage->statusCode >= 400 && $decodedMessage->statusCode < 500) { // split it for 4xx and 5xx
             $this->add4xxRow($decodedMessage);
-        } else {
+        } elseif (isset($decodedMessage->statusCode)) {
             $this->add5xxRow($decodedMessage);
         }
     }
