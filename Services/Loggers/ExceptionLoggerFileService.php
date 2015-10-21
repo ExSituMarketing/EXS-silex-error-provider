@@ -98,14 +98,16 @@ class ExceptionLoggerFileService
     {
         $elog->setStatusCode($exception->getStatusCode());
         $elog->setMessage($exception->getMessage());
-        $elog->setRequestUrl($this->request->getRequestUri());
-        $elog->setReferrer($this->request->server->get('HTTP_REFERER'));
-        $elog->setUserAgent($this->request->server->get('HTTP_USER_AGENT'));
-        $elog->setRemoteIp($this->request->server->get('REMOTE_ADDR'));
-        $elog->setMethod($this->request->server->get('REQUEST_METHOD'));
-        $elog->setQueryString($this->request->server->get('QUERY_STRING'));
         $elog->setHostname(php_uname('n'));
-        $elog->setRequest(Flattener::flattenArrayToString($this->request->server->all()));
+        if ($this->request->server->all()) { 
+            $elog->setRequestUrl($this->request->getRequestUri());
+            $elog->setReferrer($this->request->server->get('HTTP_REFERER'));
+            $elog->setUserAgent($this->request->server->get('HTTP_USER_AGENT'));
+            $elog->setRemoteIp($this->request->server->get('REMOTE_ADDR'));
+            $elog->setMethod($this->request->server->get('REQUEST_METHOD'));
+            $elog->setQueryString($this->request->server->get('QUERY_STRING'));        
+            $elog->setRequest(Flattener::flattenArrayToString($this->request->server->all()));
+        }
         $elog->setLogged($this->getDate());
         return $elog;
     }
