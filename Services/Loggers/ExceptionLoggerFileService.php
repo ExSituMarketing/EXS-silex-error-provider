@@ -98,8 +98,9 @@ class ExceptionLoggerFileService
     {
         $elog->setStatusCode($exception->getStatusCode());
         $elog->setMessage($exception->getMessage());
+        $elog->setRequestUrl($this->request->getRequestUri());
         $elog->setHostname(php_uname('n'));
-        if ($this->request->server->all()) { 
+        if (!empty($this->request->server->all()) || $this->request->getRequestUri() !== '') {
             $elog->setRequestUrl($this->request->getRequestUri());
             $elog->setReferrer($this->request->server->get('HTTP_REFERER'));
             $elog->setUserAgent($this->request->server->get('HTTP_USER_AGENT'));
